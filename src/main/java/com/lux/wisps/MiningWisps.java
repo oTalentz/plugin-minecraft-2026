@@ -128,9 +128,21 @@ public class MiningWisps extends JavaPlugin implements Listener, CommandExecutor
         ArmorStand stand = player.getWorld().spawn(loc, ArmorStand.class, as -> {
             as.setVisible(false);
             as.setGravity(false);
-            as.setSmall(true);
-            as.setMarker(true); // Prevents player interaction
+            // Removendo o setSmall(true) para o modelo 3D ficar no tamanho normal,
+            // mas caso fique muito grande no jogo, você pode adicionar novamente.
+            as.setMarker(true); // Impede interação
             as.setInvulnerable(true);
+
+            // Aplicando o modelo de Marte do Cubees Space Pack
+            ItemStack marsModel = new ItemStack(Material.GOLDEN_HORSE_ARMOR);
+            ItemMeta meta = marsModel.getItemMeta();
+            if (meta != null) {
+                meta.setCustomModelData(7191301);
+                marsModel.setItemMeta(meta);
+            }
+            if (as.getEquipment() != null) {
+                as.getEquipment().setHelmet(marsModel);
+            }
         });
 
         ActiveWisp wisp = new ActiveWisp(player, stand);
