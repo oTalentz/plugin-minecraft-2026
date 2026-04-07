@@ -57,6 +57,7 @@ public class MiningWisps extends JavaPlugin implements Listener, CommandExecutor
             meta.setLore(Arrays.asList(
                     ChatColor.GRAY + "Um pequeno espírito mágico engarrafado.",
                     ChatColor.GRAY + "Clique direito para invocá-lo.",
+                    ChatColor.GRAY + "Agache (Shift) + Clique para guardá-lo.",
                     "",
                     ChatColor.AQUA + "Duração: 3 Minutos"
             ));
@@ -91,8 +92,16 @@ public class MiningWisps extends JavaPlugin implements Listener, CommandExecutor
                     event.setCancelled(true);
 
                     if (activeWisps.containsKey(p.getUniqueId())) {
-                        p.sendMessage(ChatColor.RED + "Você já tem um espírito de luz acompanhando você!");
-                        return;
+                        if (p.isSneaking()) {
+                            // Player is sneaking, let's deactivate/store the wisp
+                            activeWisps.get(p.getUniqueId()).remove();
+                            activeWisps.remove(p.getUniqueId());
+                            p.sendMessage(ChatColor.YELLOW + "Você guardou o seu Espírito de Luz!");
+                            return;
+                        } else {
+                            p.sendMessage(ChatColor.RED + "Você já tem um espírito de luz acompanhando você! Agache (Shift) e clique para guardá-lo.");
+                            return;
+                        }
                     }
 
                     // Consume the item (1 unit)
