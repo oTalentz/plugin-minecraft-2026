@@ -1,0 +1,12 @@
+name: MiningWisps
+version: 1.0.0
+main: com.lux.wisps.MiningWisps
+api-version: '1.21'
+description: Plugin que adiciona o Espírito de Luz para iluminar cavernas!
+author: Lux
+
+commands:
+  wisp:
+    description: Comando principal do MiningWisps
+    permission: miningwisps.admin
+    usage: /wisp
