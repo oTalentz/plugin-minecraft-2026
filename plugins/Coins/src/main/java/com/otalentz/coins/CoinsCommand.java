@@ -33,6 +33,11 @@ public class CoinsCommand implements CommandExecutor {
             return true;
         }
 
+        if (args.length == 1 && args[0].equalsIgnoreCase("help")) {
+            sendHelp(sender);
+            return true;
+        }
+
         if (args.length == 1) {
             if (!sender.hasPermission("coins.admin")) {
                 sender.sendMessage(color("&cSem permissao para ver saldo de outros."));
@@ -81,8 +86,23 @@ public class CoinsCommand implements CommandExecutor {
             return true;
         }
 
-        sender.sendMessage(color("&cUso: /coins | /coins <jogador> | /coins <set/add/remove> <jogador> <quantia>"));
+        sendHelp(sender);
         return true;
+    }
+
+    private void sendHelp(CommandSender sender) {
+        sender.sendMessage(color("&6--- Ajuda Coins ---"));
+        sender.sendMessage(color("&e/coins &7- ve seu saldo"));
+        sender.sendMessage(color("&e/coins help &7- mostra esta ajuda"));
+        if (sender.hasPermission("coins.admin")) {
+            sender.sendMessage(color("&e/coins <jogador> &7- ve saldo de outro jogador"));
+            sender.sendMessage(color("&e/coins set <jogador> <quantia> &7- define o saldo"));
+            sender.sendMessage(color("&e/coins add <jogador> <quantia> &7- adiciona coins"));
+            sender.sendMessage(color("&e/coins remove <jogador> <quantia> &7- remove coins"));
+        }
+        if (sender.hasPermission("coins.pay")) {
+            sender.sendMessage(color("&e/pay <jogador> <quantia> &7- transfere coins"));
+        }
     }
 
     private String color(String msg) {

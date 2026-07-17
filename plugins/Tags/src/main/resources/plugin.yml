@@ -13,8 +13,8 @@ commands:
     description: Define a tag de um jogador
     usage: /tag <jogador> <tag>
   tags:
-    description: Lista as tags disponiveis
-    usage: /tags
+    description: Abre o menu de tags
+    usage: /tags | /tags help
 permissions:
   tags.use:
     default: true

@@ -2,10 +2,17 @@ package com.otalentz.tags;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
+
+import java.util.Arrays;
 
 public class TagsCommand implements CommandExecutor {
 
@@ -22,11 +29,19 @@ public class TagsCommand implements CommandExecutor {
                 sender.sendMessage(color("&cSem permissao."));
                 return true;
             }
-            StringBuilder sb = new StringBuilder(color("&aTags disponiveis: "));
-            for (Tag tag : Tag.values()) {
-                sb.append(tag.getPrefix()).append(tag.getDisplay()).append(ChatColor.RESET).append(", ");
+
+            if (args.length == 1 && args[0].equalsIgnoreCase("help")) {
+                sendHelp(sender);
+                return true;
             }
-            sender.sendMessage(sb.substring(0, sb.length() - 2));
+
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(color("&cApenas jogadores podem usar o menu de tags."));
+                return true;
+            }
+
+            Player player = (Player) sender;
+            openTagsMenu(player, player);
             return true;
         }
 
@@ -36,8 +51,13 @@ public class TagsCommand implements CommandExecutor {
                 return true;
             }
 
+            if (args.length == 1 && args[0].equalsIgnoreCase("help")) {
+                sendTagHelp(sender);
+                return true;
+            }
+
             if (args.length != 2) {
-                sender.sendMessage(color("&cUso: /tag <jogador> <tag>"));
+                sender.sendMessage(color("&cUso: /tag <jogador> <tag> | /tag help"));
                 return true;
             }
 
@@ -60,6 +80,43 @@ public class TagsCommand implements CommandExecutor {
         }
 
         return false;
+    }
+
+    private void sendHelp(CommandSender sender) {
+        sender.sendMessage(color("&6--- Ajuda Tags ---"));
+        sender.sendMessage(color("&e/tags &7- abre o menu de tags"));
+        sender.sendMessage(color("&e/tags help &7- mostra esta ajuda"));
+        sender.sendMessage(color("&7Tags disponiveis: &fRecruta, Moderador, Admin, Dono"));
+        if (sender.hasPermission("tags.admin.set")) {
+            sender.sendMessage(color("&e/tag <jogador> <tag> &7- define a tag de outro jogador"));
+        }
+    }
+
+    private void sendTagHelp(CommandSender sender) {
+        sender.sendMessage(color("&6--- Ajuda Tag (admin) ---"));
+        sender.sendMessage(color("&e/tag <jogador> <tag> &7- define a tag de um jogador"));
+        sender.sendMessage(color("&7Tags: Recruta, Moderador, Admin, Dono"));
+    }
+
+    public void openTagsMenu(Player viewer, Player target) {
+        Inventory inv = Bukkit.createInventory(null, 9, color("&aTags"));
+
+        for (int i = 0; i < Tag.values().length; i++) {
+            Tag tag = Tag.values()[i];
+            ItemStack item = new ItemStack(Material.PAPER);
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName(color(tag.getPrefix() + tag.getDisplay()));
+            meta.setLore(Arrays.asList(
+                color("&7Clique para selecionar esta tag."),
+                color("&7Permissoes: &f" + String.join(", ", tag.getPermissions()))
+            ));
+            meta.getPersistentDataContainer().set(plugin.getMenuKey(), PersistentDataType.STRING, tag.name());
+            item.setItemMeta(meta);
+            inv.setItem(i + 2, item);
+        }
+
+        plugin.setMenuTarget(viewer.getUniqueId(), target.getUniqueId());
+        viewer.openInventory(inv);
     }
 
     private String color(String msg) {

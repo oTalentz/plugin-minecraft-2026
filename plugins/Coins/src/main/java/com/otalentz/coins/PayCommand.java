@@ -28,8 +28,14 @@ public class PayCommand implements CommandExecutor {
             return true;
         }
 
+        if (args.length == 1 && args[0].equalsIgnoreCase("help")) {
+            sender.sendMessage(color("&6--- Ajuda Pay ---"));
+            sender.sendMessage(color("&e/pay <jogador> <quantia> &7- transfere coins para outro jogador"));
+            return true;
+        }
+
         if (args.length != 2) {
-            sender.sendMessage(color("&cUso: /pay <jogador> <quantia>"));
+            sender.sendMessage(color("&cUso: /pay <jogador> <quantia> | /pay help"));
             return true;
         }
 

@@ -18,8 +18,14 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.NamespacedKey;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -37,6 +43,8 @@ public class TagsPlugin extends JavaPlugin implements Listener {
     private LuckPerms luckPerms;
     private File dataFile;
     private FileConfiguration dataConfig;
+    private NamespacedKey menuKey;
+    private final Map<UUID, UUID> menuTargets = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -58,6 +66,8 @@ public class TagsPlugin extends JavaPlugin implements Listener {
         getCommand("tag").setExecutor(new TagsCommand(this));
         getCommand("tags").setExecutor(new TagsCommand(this));
 
+        menuKey = new NamespacedKey(this, "tag-menu");
+
         Bukkit.getPluginManager().registerEvents(this, this);
     }
 
@@ -68,6 +78,14 @@ public class TagsPlugin extends JavaPlugin implements Listener {
 
     public static TagsPlugin getInstance() {
         return instance;
+    }
+
+    public NamespacedKey getMenuKey() {
+        return menuKey;
+    }
+
+    public void setMenuTarget(UUID viewer, UUID target) {
+        menuTargets.put(viewer, target);
     }
 
     private void setupLuckPerms() {
@@ -175,6 +193,38 @@ public class TagsPlugin extends JavaPlugin implements Listener {
 
     public Tag getTag(OfflinePlayer player) {
         return getTag(player.getUniqueId());
+    }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        if (!(event.getWhoClicked() instanceof Player)) return;
+        Player player = (Player) event.getWhoClicked();
+        UUID targetId = menuTargets.get(player.getUniqueId());
+        if (targetId == null) return;
+
+        ItemStack item = event.getCurrentItem();
+        if (item == null || item.getType().isAir()) return;
+
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null || !meta.getPersistentDataContainer().has(menuKey, PersistentDataType.STRING)) {
+            event.setCancelled(true);
+            return;
+        }
+
+        String tagName = meta.getPersistentDataContainer().get(menuKey, PersistentDataType.STRING);
+        Tag tag = Tag.fromString(tagName);
+        if (tag != null) {
+            setTag(targetId, tag);
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aTag definida para " + tag.getPrefix() + tag.getDisplay()));
+            Player target = Bukkit.getPlayer(targetId);
+            if (target != null) {
+                target.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSua tag foi atualizada para " + tag.getPrefix() + tag.getDisplay()));
+            }
+        }
+
+        event.setCancelled(true);
+        player.closeInventory();
+        menuTargets.remove(player.getUniqueId());
     }
 
     @EventHandler
