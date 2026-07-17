@@ -8,5 +8,8 @@ if [[ ! -f "$SCRIPT_DIR/server/plugins/Coins-"*.jar || ! -f "$SCRIPT_DIR/server/
     "$SCRIPT_DIR/build.sh"
 fi
 
+echo "Baixando plugins externos..."
+"$SCRIPT_DIR/server/download-plugins.sh"
+
 cd "$SCRIPT_DIR/server"
 docker compose up -d

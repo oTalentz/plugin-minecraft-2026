@@ -13,7 +13,7 @@ Configuracao pronta para rodar um servidor **Paper 1.21.8** com suporte a multip
 ./start.sh
 ```
 
-O script compila os plugins (`Coins` e `Tags`) e sobe o container.
+O script compila os plugins (`Coins` e `Tags`), baixa os plugins externos (ViaVersion, ViaBackwards, LuckPerms, Vault) e sobe o container.
 
 ## Comandos uteis
 
