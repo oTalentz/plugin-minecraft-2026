@@ -25,5 +25,8 @@ curl -fsSL "$LUCKPERMS_URL" -o LuckPerms-Bukkit.jar
 # Vault (release estavel 1.7.3)
 curl -fsSL -L "https://github.com/MilkBowl/Vault/releases/download/1.7.3/Vault.jar" -o Vault.jar
 
+# playit.gg (tunel publico para o servidor)
+curl -fsSL -L "https://github.com/playit-cloud/playit-minecraft-plugin/releases/latest/download/playit-minecraft-plugin.jar" -o playit-minecraft-plugin.jar
+
 echo "Plugins externos baixados:"
-ls -la "$OUTPUT_DIR"/ViaVersion.jar "$OUTPUT_DIR"/ViaBackwards.jar "$OUTPUT_DIR"/LuckPerms-Bukkit.jar "$OUTPUT_DIR"/Vault.jar
+ls -la "$OUTPUT_DIR"/ViaVersion.jar "$OUTPUT_DIR"/ViaBackwards.jar "$OUTPUT_DIR"/LuckPerms-Bukkit.jar "$OUTPUT_DIR"/Vault.jar "$OUTPUT_DIR"/playit-minecraft-plugin.jar

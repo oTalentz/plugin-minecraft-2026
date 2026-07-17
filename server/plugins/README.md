@@ -8,3 +8,4 @@ Os seguintes plugins externos sao baixados automaticamente pelo `../download-plu
 - **ViaBackwards** - permite clientes em versoes inferiores se conectarem
 - **LuckPerms** - gerenciador de permissoes
 - **Vault** - API de economia, chat e permissoes
+- **playit-gg** - cria um tunel publico para expor o servidor a jogadores de qualquer lugar (requer clamar o codigo no console)

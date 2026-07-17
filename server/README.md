@@ -13,7 +13,7 @@ Configuracao pronta para rodar um servidor **Paper 1.21.8** com suporte a multip
 ./start.sh
 ```
 
-O script compila os plugins (`Coins` e `Tags`), baixa os plugins externos (ViaVersion, ViaBackwards, LuckPerms, Vault) e sobe o container.
+O script compila os plugins (`Coins` e `Tags`), baixa os plugins externos (ViaVersion, ViaBackwards, LuckPerms, Vault, playit-gg) e sobe o container.
 
 ## Comandos uteis
 
@@ -38,6 +38,7 @@ docker attach minecraft-paper-1.21.8
 - **Vault**: a economia `Coins` registra um provider `Economy` do Vault para outros plugins.
 - **LuckPerms**: o plugin `Tags` cria os grupos e define permissoes automaticamente para cada tag.
 - **ViaVersion + ViaBackwards**: permite que jogadores em versoes diferentes da 1.21.8 entrem no servidor.
+- **playit-gg**: gera um tunel publico para o servidor. Apos iniciar, o console exibe um link `https://playit.gg/claim/...`; acesse-o para obter o endereco publico.
 
 ## Estrutura
 
