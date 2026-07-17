@@ -77,7 +77,7 @@
         const playerEl = document.getElementById('player');
         const toastEl = document.getElementById('toast');
 
-        const source = new EventSource('/api/logs');
+        const source = new EventSource(location.origin + '/api/logs');
         source.onmessage = e => {
             const data = JSON.parse(e.data);
             appendLine(data.line);
@@ -94,7 +94,7 @@
 
         async function refreshStatus() {
             try {
-                const r = await fetch('/api/status');
+                const r = await fetch(location.origin + '/api/status');
                 if (!r.ok) throw new Error('nao autenticado');
                 const s = await r.json();
                 statusEl.className = 'status ' + (s.online ? 'online' : 'offline');
@@ -121,7 +121,7 @@
             if (!cmd) return;
             input.value = '';
             try {
-                const r = await fetch('/api/command', {
+                const r = await fetch(location.origin + '/api/command', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({cmd})
@@ -145,16 +145,16 @@
             } catch (e) { show('Erro: ' + e.message, true); }
         }
 
-        function op() { const p = playerEl.value.trim(); if (!p) return; api('/api/op/' + encodeURIComponent(p)); }
-        function deop() { const p = playerEl.value.trim(); if (!p) return; api('/api/deop/' + encodeURIComponent(p)); }
+        function op() { const p = playerEl.value.trim(); if (!p) return; api(location.origin + '/api/op/' + encodeURIComponent(p)); }
+        function deop() { const p = playerEl.value.trim(); if (!p) return; api(location.origin + '/api/deop/' + encodeURIComponent(p)); }
         function kick() {
             const p = playerEl.value.trim();
             if (!p) return;
             const reason = prompt('Motivo do kick?') || '';
-            api('/api/kick/' + encodeURIComponent(p), {reason});
+            api(location.origin + '/api/kick/' + encodeURIComponent(p), {reason});
         }
-        function restart() { if (confirm('Reiniciar o servidor?')) api('/api/restart'); }
-        function stop() { if (confirm('Parar o servidor?')) api('/api/stop'); }
+        function restart() { if (confirm('Reiniciar o servidor?')) api(location.origin + '/api/restart'); }
+        function stop() { if (confirm('Parar o servidor?')) api(location.origin + '/api/stop'); }
     </script>
 </body>
 </html>
