@@ -13,3 +13,6 @@ echo "Baixando plugins externos..."
 
 cd "$SCRIPT_DIR/server"
 docker compose up -d
+
+# Inicia tunel publico TCP (fallback do playit, que pode falhar em redes sem UDP para o servidor de controle)
+"$SCRIPT_DIR/server/expose-bore.sh"

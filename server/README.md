@@ -38,7 +38,8 @@ docker attach minecraft-paper-1.21.8
 - **Vault**: a economia `Coins` registra um provider `Economy` do Vault para outros plugins.
 - **LuckPerms**: o plugin `Tags` cria os grupos e define permissoes automaticamente para cada tag.
 - **ViaVersion + ViaBackwards**: permite que jogadores em versoes diferentes da 1.21.8 entrem no servidor.
-- **playit-gg**: gera um tunel publico para o servidor. Apos iniciar, o console exibe um link `https://playit.gg/claim/...`; acesse-o para obter o endereco publico.
+- **playit-gg**: tenta gerar um tunel publico para o servidor. Apos iniciar, o console exibe um link `https://playit.gg/claim/...`; acesse-o para obter o endereco publico. Em algumas redes o playit nao consegue conectar no servidor de controle (UDP), entao o `start.sh` tambem inicia um tunel `bore` como fallback.
+- **bore**: tunel TCP publico via `bore.digital` (sem conta). Endereco publico padrao: `bore.digital:55001`.
 
 ## Estrutura
 
