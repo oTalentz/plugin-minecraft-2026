@@ -3,3 +3,11 @@ target/
 .idea/
 *.iml
 .vscode/
+
+# Maven local extraido do maven.zip
+tools/
+
+# Servidor
+server/data/
+server/plugins/*.jar
+

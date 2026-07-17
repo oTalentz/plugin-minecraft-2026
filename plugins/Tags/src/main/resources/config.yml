@@ -1,0 +1,3 @@
+# Tag padrao atribuida a novos jogadores
+# Valores possiveis: RECRUTA, MODERADOR, ADMIN, DONO
+default-tag: RECRUTA
