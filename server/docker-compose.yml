@@ -15,6 +15,7 @@ services:
       ENFORCE_SECURE_PROFILE: "FALSE"
     ports:
       - "25565:25565"
+      - "25575:25575"
     volumes:
       - ./data:/data
       - ./plugins:/plugins:ro

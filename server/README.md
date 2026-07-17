@@ -40,6 +40,7 @@ docker attach minecraft-paper-1.21.8
 - **ViaVersion + ViaBackwards**: permite que jogadores em versoes diferentes da 1.21.8 entrem no servidor.
 - **playit-gg**: tenta gerar um tunel publico para o servidor. Apos iniciar, o console exibe um link `https://playit.gg/claim/...`; acesse-o para obter o endereco publico. Em algumas redes o playit nao consegue conectar no servidor de controle (UDP), entao o `start.sh` tambem inicia um tunel `bore` como fallback.
 - **bore**: tunel TCP publico via `bore.digital` (sem conta). Endereco publico padrao: `bore.digital:55001`.
+- **Console web**: painel em Flask (porta 5000) para ver logs, executar comandos, dar/remover OP, kick e reiniciar/parar o servidor. O `start.sh` ja sobe a console localmente.
 
 ## Estrutura
 

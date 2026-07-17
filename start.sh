@@ -16,3 +16,6 @@ docker compose up -d
 
 # Inicia tunel publico TCP (fallback do playit, que pode falhar em redes sem UDP para o servidor de controle)
 "$SCRIPT_DIR/server/expose-bore.sh"
+
+# Inicia console web local para gerenciar o servidor
+"$SCRIPT_DIR/server/web-console/start.sh"
