@@ -1,0 +1,22 @@
+name: Tags
+version: ${project.version}
+main: com.otalentz.tags.TagsPlugin
+api-version: '1.21'
+description: Sistema de tags (Recruta, Moderador, Admin, Dono) para Paper 1.21.8+
+author: oTalentz
+website: https://github.com/oTalentz/plugin-minecraft-2026
+softdepend:
+  - LuckPerms
+  - Vault
+commands:
+  tag:
+    description: Define a tag de um jogador
+    usage: /tag <jogador> <tag>
+  tags:
+    description: Lista as tags disponiveis
+    usage: /tags
+permissions:
+  tags.use:
+    default: true
+  tags.admin.set:
+    default: op
