@@ -42,3 +42,14 @@ Available under `.agents/skills/`:
 - `babysit` — monitor a PR until merge-ready
 
 Activate the relevant skill when the user asks about memory, planning, code exploration, issue triage, or project history.
+
+# Additional Minecraft Skills
+
+Absorbed from external repositories and added to `.agents/skills/`:
+
+- `minecraft-misode-datapack` — use Misode generators (`misode.github.io`) to create/validate datapack JSON.
+- `minecraft-oraxen` — configure custom items, blocks, paintings, glyphs and resource packs with the Oraxen plugin.
+- `minecraft-packetevents` — intercept, read and modify Minecraft packets on Paper/Spigot/Velocity/Fabric/Sponge.
+- `minecraft-cloud-commands` — build type-safe, Brigadier-integrated commands with the Incendo Cloud framework.
+
+Activate the matching skill when the user asks about datapack generators, Oraxen, packet-level programming or Cloud commands.
