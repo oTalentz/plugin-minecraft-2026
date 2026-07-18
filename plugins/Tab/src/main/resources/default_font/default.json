@@ -27,7 +27,7 @@
     {
       "type": "bitmap",
       "file": "minecraft:font/recruta.png",
-      "height": 8,
+      "height": 6,
       "ascent": 6,
       "chars": [
         "\uE001"
