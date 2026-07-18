@@ -1,0 +1,12 @@
+dono:
+  tabprefix: "&f "
+  tagprefix: "&f "
+admin:
+  tabprefix: "%luckperms-prefix%"
+  tagprefix: "%luckperms-prefix%"
+moderador:
+  tabprefix: "%luckperms-prefix%"
+  tagprefix: "%luckperms-prefix%"
+recruta:
+  tabprefix: "%luckperms-prefix%"
+  tagprefix: "%luckperms-prefix%"

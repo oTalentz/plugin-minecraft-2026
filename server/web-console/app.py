@@ -270,7 +270,7 @@ def stop_server():
 
 @app.route("/tab-resourcepack.zip")
 def tab_resourcepack():
-    pack = SERVER_DIR / "data" / "plugins" / "Tab" / "tab-resourcepack.zip"
+    pack = SERVER_DIR / "data" / "plugins" / "oTalentzTab" / "tab-resourcepack.zip"
     if not pack.exists():
         return jsonify({"error": "resource pack not found"}), 404
     return send_file(pack, mimetype="application/zip", as_attachment=True, download_name="tab-resourcepack.zip")

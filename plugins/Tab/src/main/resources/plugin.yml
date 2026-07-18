@@ -1,4 +1,4 @@
-name: Tab
+name: oTalentzTab
 version: ${project.version}
 main: com.otalentz.tab.TabPlugin
 api-version: '1.21'
@@ -6,10 +6,10 @@ softdepend:
   - Tags
 description: Gerencia tab e resource pack de ranks
 commands:
-  tab:
+  otab:
     description: Recarrega tab e resource pack
-    usage: /tab [reload|pack|update|test]
-    permission: tab.admin
+    usage: /otab [reload|pack|update|test]
+    permission: otalentztab.admin
 permissions:
-  tab.admin:
+  otalentztab.admin:
     default: op

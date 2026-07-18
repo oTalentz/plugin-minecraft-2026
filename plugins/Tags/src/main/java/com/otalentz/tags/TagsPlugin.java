@@ -49,6 +49,7 @@ public class TagsPlugin extends JavaPlugin implements Listener {
     private FileConfiguration dataConfig;
     private NamespacedKey menuKey;
     private final Map<UUID, UUID> menuTargets = new HashMap<>();
+    private boolean tabPluginAvailable = false;
 
     @Override
     public void onEnable() {
@@ -56,13 +57,18 @@ public class TagsPlugin extends JavaPlugin implements Listener {
         saveDefaultConfig();
         loadData();
 
-        scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        for (Tag tag : Tag.values()) {
-            Team team = scoreboard.getTeam(tag.getGroupName());
-            if (team == null) {
-                team = scoreboard.registerNewTeam(tag.getGroupName());
+        tabPluginAvailable = Bukkit.getPluginManager().getPlugin("TAB") != null;
+        if (!tabPluginAvailable) {
+            scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+            for (Tag tag : Tag.values()) {
+                Team team = scoreboard.getTeam(tag.getGroupName());
+                if (team == null) {
+                    team = scoreboard.registerNewTeam(tag.getGroupName());
+                }
+                team.setPrefix(tag.getPrefix());
             }
-            team.setPrefix(tag.getPrefix());
+        } else {
+            getLogger().info("TAB detectado. Tags nao criara scoreboard teams.");
         }
 
         setupLuckPerms();
@@ -254,6 +260,9 @@ public class TagsPlugin extends JavaPlugin implements Listener {
     }
 
     private void updateScoreboard(Player player, Tag tag) {
+        if (tabPluginAvailable || scoreboard == null) {
+            return;
+        }
         for (Team team : scoreboard.getTeams()) {
             if (team.hasEntry(player.getName())) {
                 team.removeEntry(player.getName());

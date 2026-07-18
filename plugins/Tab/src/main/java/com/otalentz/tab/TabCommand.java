@@ -16,7 +16,7 @@ public class TabCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!sender.hasPermission("tab.admin")) {
+        if (!sender.hasPermission("otalentztab.admin")) {
             sender.sendMessage("§cVoce nao tem permissao.");
             return true;
         }
@@ -48,12 +48,12 @@ public class TabCommand implements CommandExecutor {
                 plugin.sendTest((Player) sender);
                 sender.sendMessage("§aMensagem de teste enviada. Verifique o chat e o tab.");
             } else {
-                sender.sendMessage("§cApenas jogadores podem usar /tab test");
+                sender.sendMessage("§cApenas jogadores podem usar /otab test");
             }
             return true;
         }
 
-        sender.sendMessage("§cUso: /tab [reload|pack|update|test]");
+        sender.sendMessage("§cUso: /otab [reload|pack|update|test]");
         return true;
     }
 }

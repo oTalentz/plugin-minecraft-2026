@@ -42,6 +42,7 @@ public class TabPlugin extends JavaPlugin implements Listener {
     private boolean resourcePackRequired = false;
     private Component resourcePackPrompt = Component.text("Ative o resource pack para ver as tags personalizadas.");
     private boolean forcePackAvailable = false;
+    private boolean tabPluginAvailable = false;
     private final Map<UUID, Boolean> packLoaded = new HashMap<>();
 
     @Override
@@ -56,12 +57,18 @@ public class TabPlugin extends JavaPlugin implements Listener {
         generateResourcePack();
         setupTagsIntegration();
         forcePackAvailable = Bukkit.getPluginManager().getPlugin("ForcePack") != null;
+        tabPluginAvailable = Bukkit.getPluginManager().getPlugin("TAB") != null;
         if (forcePackAvailable) {
             getLogger().info("ForcePack detectado. Tab nao enviara resource pack (ForcePack gerencia isso).");
         }
+        if (tabPluginAvailable) {
+            getLogger().info("Plugin TAB detectado. Este plugin Tab so gerara o resource pack.");
+        }
 
-        getCommand("tab").setExecutor(new TabCommand(this));
-        Bukkit.getPluginManager().registerEvents(this, this);
+        if (!tabPluginAvailable) {
+            getCommand("otab").setExecutor(new TabCommand(this));
+            Bukkit.getPluginManager().registerEvents(this, this);
+        }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             onPlayerLogin(player);
@@ -169,6 +176,7 @@ public class TabPlugin extends JavaPlugin implements Listener {
     }
 
     public void updateTab(Player player) {
+        if (tabPluginAvailable) return;
         Object tag = getTag(player);
         boolean loaded = packLoaded.getOrDefault(player.getUniqueId(), false);
         Component display;
@@ -200,6 +208,10 @@ public class TabPlugin extends JavaPlugin implements Listener {
     }
 
     public void sendTest(Player player) {
+        if (tabPluginAvailable) {
+            player.sendMessage(Component.text("Plugin TAB esta ativo. Use /tab do TAB para testar."));
+            return;
+        }
         Component icon = Component.text("\uE000");
         Component msg = Component.text("[Tab Test] ").append(icon).append(Component.text(" " + player.getName()));
         player.sendMessage(msg);
