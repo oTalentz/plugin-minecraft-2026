@@ -22,3 +22,23 @@ Available under `.agents/skills/`:
 
 Activate the relevant skill when the user asks about any of those topics.
 Do not load unrelated skills to save context.
+
+# Claude-Mem Skills
+
+Imported from `https://github.com/thedotmack/claude-mem.git`.
+
+Claude-Mem is a persistent memory system for AI agents. The worker runs locally on `http://127.0.0.1:37700`; start it with `npx claude-mem start` and stop with `npx claude-mem stop`.
+
+Available under `.agents/skills/`:
+- `mem-search` — search cross-session memory
+- `knowledge-agent` — build/query knowledge bases from observations
+- `learn-codebase` — read every source file to prime a project
+- `make-plan` / `do` — phased planning and execution
+- `smart-explore` — token-optimized structural code search
+- `oh-my-issues` — cluster and triage GitHub issues
+- `pathfinder` — map codebase into feature flowcharts
+- `standup` — compare changes across worktrees/branches/PRs
+- `timeline-report` / `weekly-digests` — project history narratives
+- `babysit` — monitor a PR until merge-ready
+
+Activate the relevant skill when the user asks about memory, planning, code exploration, issue triage, or project history.
