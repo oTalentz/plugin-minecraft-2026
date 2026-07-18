@@ -18,8 +18,8 @@
     {
       "type": "bitmap",
       "file": "minecraft:font/dono.png",
-      "height": 8,
-      "ascent": 7,
+      "height": 18,
+      "ascent": 12,
       "chars": [
         "\uE000"
       ]
