@@ -18,7 +18,7 @@
     {
       "type": "bitmap",
       "file": "minecraft:font/recruta.png",
-      "height": 7,
+      "height": 8,
       "ascent": 7,
       "chars": [
         "\uE000"
@@ -27,7 +27,7 @@
     {
       "type": "bitmap",
       "file": "minecraft:font/cadete.png",
-      "height": 7,
+      "height": 8,
       "ascent": 7,
       "chars": [
         "\uE001"
@@ -36,7 +36,7 @@
     {
       "type": "bitmap",
       "file": "minecraft:font/oficial.png",
-      "height": 7,
+      "height": 8,
       "ascent": 7,
       "chars": [
         "\uE002"
@@ -45,7 +45,7 @@
     {
       "type": "bitmap",
       "file": "minecraft:font/capitao.png",
-      "height": 7,
+      "height": 8,
       "ascent": 7,
       "chars": [
         "\uE003"
@@ -54,7 +54,7 @@
     {
       "type": "bitmap",
       "file": "minecraft:font/mestre.png",
-      "height": 7,
+      "height": 8,
       "ascent": 7,
       "chars": [
         "\uE004"
@@ -63,7 +63,7 @@
     {
       "type": "bitmap",
       "file": "minecraft:font/heroi.png",
-      "height": 7,
+      "height": 8,
       "ascent": 7,
       "chars": [
         "\uE005"
