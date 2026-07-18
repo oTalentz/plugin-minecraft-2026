@@ -92,13 +92,13 @@ public class TabPlugin extends JavaPlugin implements Listener {
             File meta = new File(tempDir, "pack.mcmeta");
             Files.write(meta.toPath(), "{\"pack\":{\"pack_format\":46,\"supported_formats\":[46,64],\"description\":\"oTalentz Tab Rank Pack\"}}".getBytes());
 
-            File fontDir = new File(tempDir, "assets/otalentz/font");
+            File fontDir = new File(tempDir, "assets/minecraft/font");
             fontDir.mkdirs();
-            File texDir = new File(tempDir, "assets/otalentz/textures/font");
+            File texDir = new File(tempDir, "assets/minecraft/textures/font");
             texDir.mkdirs();
 
-            String fontJson = "{\"providers\":[{\"type\":\"bitmap\",\"file\":\"otalentz:font/dono\",\"height\":8,\"ascent\":7,\"chars\":[\"\\uE000\"]}]}";
-            Files.write(new File(fontDir, "donorank.json").toPath(), fontJson.getBytes("UTF-8"));
+            String fontJson = "{\"providers\":[{\"type\":\"reference\",\"id\":\"minecraft:include/space\"},{\"type\":\"reference\",\"id\":\"minecraft:include/default\",\"filter\":{\"uniform\":false}},{\"type\":\"reference\",\"id\":\"minecraft:include/unifont\"},{\"type\":\"bitmap\",\"file\":\"minecraft:font/dono\",\"height\":8,\"ascent\":7,\"chars\":[\"\\uE000\"]}]}";
+            Files.write(new File(fontDir, "default.json").toPath(), fontJson.getBytes("UTF-8"));
 
             InputStream in = getResource("dono.png");
             if (in == null) {
@@ -182,8 +182,8 @@ public class TabPlugin extends JavaPlugin implements Listener {
             }
 
             if ("Dono".equals(displayName) && loaded) {
-                Component icon = Component.text("\uE000").font(Key.key("otalentz", "donorank"));
-                Component name = Component.text(" " + player.getName()).font(Key.key("minecraft", "default"));
+                Component icon = Component.text("\uE000");
+                Component name = Component.text(" " + player.getName());
                 display = Component.empty().append(icon).append(name);
             } else {
                 Component prefixComp = LegacyComponentSerializer.legacySection().deserialize(prefix);
@@ -196,7 +196,7 @@ public class TabPlugin extends JavaPlugin implements Listener {
     }
 
     public void sendTest(Player player) {
-        Component icon = Component.text("\uE000").font(Key.key("otalentz", "donorank"));
+        Component icon = Component.text("\uE000");
         Component msg = Component.text("[Tab Test] ").append(icon).append(Component.text(" " + player.getName()));
         player.sendMessage(msg);
         player.sendActionBar(Component.text("Se aparecer o icone acima, a fonte carregou."));
