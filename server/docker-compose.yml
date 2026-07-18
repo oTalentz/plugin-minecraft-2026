@@ -10,11 +10,12 @@ services:
       VERSION: "1.21.8"
       PAPER_DOWNLOAD_URL: "https://fill-data.papermc.io/v1/objects/8de7c52c3b02403503d16fac58003f1efef7dd7a0256786843927fa92ee57f1e/paper-1.21.8-60.jar"
       MEMORY: "2G"
-      SPIGET_RESOURCES: "19254,27448,28140,34315"
+      SPIGET_RESOURCES: "19254,28140,34315"
       # 19254 = ViaVersion (multi-versoes)
-      # 27448 = ViaBackwards (clientes mais antigos)
       # 28140 = LuckPerms (permissoes)
       # 34315 = Vault (economia/tags API)
+      MODRINTH_PROJECTS: |
+        viabackwards
     ports:
       - "25565:25565"
     volumes:
