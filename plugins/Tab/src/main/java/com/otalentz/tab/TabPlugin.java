@@ -20,6 +20,8 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.security.MessageDigest;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -37,12 +39,18 @@ public class TabPlugin extends JavaPlugin implements Listener {
     private Method tagGetDisplayMethod;
     private Method tagGetPrefixMethod;
     private boolean tagsAvailable = false;
+    private boolean resourcePackRequired = false;
+    private Component resourcePackPrompt = Component.text("Ative o resource pack para ver as tags personalizadas.");
+    private final Map<UUID, Boolean> packLoaded = new HashMap<>();
 
     @Override
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
         packUrl = getConfig().getString("resource-pack-url", "https://otalentz-mc-console.bore.digital/tab-resourcepack.zip");
+        resourcePackRequired = getConfig().getBoolean("resource-pack-required", false);
+        String prompt = getConfig().getString("resource-pack-prompt", "Ative o resource pack para ver as tags personalizadas.");
+        resourcePackPrompt = Component.text(prompt);
         getDataFolder().mkdirs();
         generateResourcePack();
         setupTagsIntegration();
@@ -51,15 +59,7 @@ public class TabPlugin extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(this, this);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            sendPack(player);
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    if (player.isOnline()) {
-                        updateTab(player);
-                    }
-                }
-            }.runTaskLater(this, 40L);
+            onPlayerLogin(player);
         }
     }
 
@@ -90,7 +90,7 @@ public class TabPlugin extends JavaPlugin implements Listener {
 
         try {
             File meta = new File(tempDir, "pack.mcmeta");
-            Files.write(meta.toPath(), "{\"pack\":{\"pack_format\":64,\"description\":\"oTalentz Tab Rank Pack\"}}".getBytes());
+            Files.write(meta.toPath(), "{\"pack\":{\"pack_format\":46,\"supported_formats\":[46,64],\"description\":\"oTalentz Tab Rank Pack\"}}".getBytes());
 
             File fontDir = new File(tempDir, "assets/minecraft/font");
             fontDir.mkdirs();
@@ -158,7 +158,7 @@ public class TabPlugin extends JavaPlugin implements Listener {
             return;
         }
         try {
-            player.setResourcePack(packUrl, packHash, false);
+            player.setResourcePack(packUrl, packHash, resourcePackPrompt, resourcePackRequired);
         } catch (Exception e) {
             getLogger().warning("Erro ao enviar resource pack para " + player.getName() + ": " + e.getMessage());
         }
@@ -166,6 +166,7 @@ public class TabPlugin extends JavaPlugin implements Listener {
 
     public void updateTab(Player player) {
         Object tag = getTag(player);
+        boolean loaded = packLoaded.getOrDefault(player.getUniqueId(), false);
         Component display;
         if (tag != null) {
             String displayName = "";
@@ -174,16 +175,17 @@ public class TabPlugin extends JavaPlugin implements Listener {
             } catch (Exception ignored) {
             }
 
-            if ("Dono".equals(displayName)) {
+            String prefix = "";
+            try {
+                prefix = (String) tagGetPrefixMethod.invoke(tag);
+            } catch (Exception ignored) {
+            }
+
+            if ("Dono".equals(displayName) && loaded) {
                 Component icon = Component.text("\uE000").font(Key.key("minecraft", "donorank"));
                 Component name = Component.text(" " + player.getName()).font(Key.key("minecraft", "default"));
                 display = Component.empty().append(icon).append(name);
             } else {
-                String prefix = "";
-                try {
-                    prefix = (String) tagGetPrefixMethod.invoke(tag);
-                } catch (Exception ignored) {
-                }
                 Component prefixComp = LegacyComponentSerializer.legacySection().deserialize(prefix);
                 display = Component.empty().append(prefixComp).append(Component.text(player.getName()));
             }
@@ -203,10 +205,10 @@ public class TabPlugin extends JavaPlugin implements Listener {
         }
     }
 
-    @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
+    private void onPlayerLogin(Player player) {
+        packLoaded.put(player.getUniqueId(), false);
         sendPack(player);
+        updateTab(player);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -214,13 +216,26 @@ public class TabPlugin extends JavaPlugin implements Listener {
                     updateTab(player);
                 }
             }
-        }.runTaskLater(this, 40L);
+        }.runTaskLater(this, 60L);
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        onPlayerLogin(event.getPlayer());
     }
 
     @EventHandler
     public void onResourcePackStatus(PlayerResourcePackStatusEvent event) {
-        if (event.getStatus() == PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED) {
-            updateTab(event.getPlayer());
+        Player player = event.getPlayer();
+        PlayerResourcePackStatusEvent.Status status = event.getStatus();
+        getLogger().info("Resource pack status de " + player.getName() + ": " + status.name());
+        if (status == PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED || status == PlayerResourcePackStatusEvent.Status.DOWNLOADED) {
+            packLoaded.put(player.getUniqueId(), true);
+            updateTab(player);
+        } else if (status == PlayerResourcePackStatusEvent.Status.DECLINED || status == PlayerResourcePackStatusEvent.Status.FAILED_DOWNLOAD || status == PlayerResourcePackStatusEvent.Status.FAILED_RELOAD) {
+            packLoaded.put(player.getUniqueId(), false);
+            player.sendMessage("§cO resource pack nao foi carregado. A tag Dono sera exibida como texto ate que o pack seja aceito.");
+            updateTab(player);
         }
     }
 
