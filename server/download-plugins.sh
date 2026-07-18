@@ -2,7 +2,7 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-OUTPUT_DIR="$SCRIPT_DIR/plugins"
+OUTPUT_DIR="$SCRIPT_DIR/data/plugins"
 USER_AGENT="cool-project/1.0.0"
 
 echo "Baixando plugins externos..."

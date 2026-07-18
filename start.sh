@@ -3,7 +3,9 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-if [[ ! -f "$SCRIPT_DIR/server/plugins/Coins-"*.jar || ! -f "$SCRIPT_DIR/server/plugins/Tags-"*.jar || ! -f "$SCRIPT_DIR/server/plugins/Tab-"*.jar ]]; then
+if ! ls "$SCRIPT_DIR/server/data/plugins"/Coins-*.jar >/dev/null 2>&1 || \
+   ! ls "$SCRIPT_DIR/server/data/plugins"/Tags-*.jar >/dev/null 2>&1 || \
+   ! ls "$SCRIPT_DIR/server/data/plugins"/Tab-*.jar >/dev/null 2>&1; then
     echo "Plugins nao encontrados. Executando build..."
     "$SCRIPT_DIR/build.sh"
 fi
