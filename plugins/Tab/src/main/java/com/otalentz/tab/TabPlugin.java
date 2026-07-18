@@ -41,6 +41,7 @@ public class TabPlugin extends JavaPlugin implements Listener {
     private boolean tagsAvailable = false;
     private boolean resourcePackRequired = false;
     private Component resourcePackPrompt = Component.text("Ative o resource pack para ver as tags personalizadas.");
+    private boolean forcePackAvailable = false;
     private final Map<UUID, Boolean> packLoaded = new HashMap<>();
 
     @Override
@@ -54,6 +55,10 @@ public class TabPlugin extends JavaPlugin implements Listener {
         getDataFolder().mkdirs();
         generateResourcePack();
         setupTagsIntegration();
+        forcePackAvailable = Bukkit.getPluginManager().getPlugin("ForcePack") != null;
+        if (forcePackAvailable) {
+            getLogger().info("ForcePack detectado. Tab nao enviara resource pack (ForcePack gerencia isso).");
+        }
 
         getCommand("tab").setExecutor(new TabCommand(this));
         Bukkit.getPluginManager().registerEvents(this, this);
@@ -90,7 +95,7 @@ public class TabPlugin extends JavaPlugin implements Listener {
 
         try {
             File meta = new File(tempDir, "pack.mcmeta");
-            Files.write(meta.toPath(), "{\"pack\":{\"pack_format\":46,\"supported_formats\":[46,64],\"description\":\"oTalentz Tab Rank Pack\"}}".getBytes());
+            Files.write(meta.toPath(), "{\"pack\":{\"pack_format\":64,\"supported_formats\":[64,64],\"description\":\"oTalentz Tab Rank Pack\"}}".getBytes());
 
             File fontDir = new File(tempDir, "assets/minecraft/font");
             fontDir.mkdirs();
@@ -151,6 +156,7 @@ public class TabPlugin extends JavaPlugin implements Listener {
     }
 
     public void sendPack(Player player) {
+        if (forcePackAvailable) return;
         if (packFile == null || !packFile.exists() || packHash == null || packUrl == null || packUrl.isEmpty()) {
             getLogger().warning("Resource pack nao esta pronto para enviar.");
             return;
