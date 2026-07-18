@@ -94,19 +94,17 @@ public class TabPlugin extends JavaPlugin implements Listener {
 
             File fontDir = new File(tempDir, "assets/minecraft/font");
             fontDir.mkdirs();
+            File includeDir = new File(fontDir, "include");
+            includeDir.mkdirs();
             File texDir = new File(tempDir, "assets/minecraft/textures/font");
             texDir.mkdirs();
 
-            String fontJson = "{\"providers\":[{\"type\":\"reference\",\"id\":\"minecraft:include/space\"},{\"type\":\"reference\",\"id\":\"minecraft:include/default\",\"filter\":{\"uniform\":false}},{\"type\":\"reference\",\"id\":\"minecraft:include/unifont\"},{\"type\":\"bitmap\",\"file\":\"minecraft:font/dono\",\"height\":8,\"ascent\":7,\"chars\":[\"\\uE000\"]}]}";
-            Files.write(new File(fontDir, "default.json").toPath(), fontJson.getBytes("UTF-8"));
+            copyResourceToFile("default_font/default.json", new File(fontDir, "default.json"));
+            copyResourceToFile("default_font/include/space.json", new File(includeDir, "space.json"));
+            copyResourceToFile("default_font/include/default.json", new File(includeDir, "default.json"));
+            copyResourceToFile("default_font/include/unifont.json", new File(includeDir, "unifont.json"));
 
-            InputStream in = getResource("dono.png");
-            if (in == null) {
-                getLogger().warning("dono.png nao encontrado nos recursos do plugin.");
-                return;
-            }
-            File donoFile = new File(texDir, "dono.png");
-            copy(in, donoFile);
+            copyResourceToFile("dono.png", new File(texDir, "dono.png"));
 
             packFile = new File(getDataFolder(), "tab-resourcepack.zip");
             zipDir(tempDir, packFile);
@@ -244,6 +242,14 @@ public class TabPlugin extends JavaPlugin implements Listener {
             player.sendMessage("§cO resource pack nao foi carregado. A tag Dono sera exibida como texto ate que o pack seja aceito.");
             updateTab(player);
         }
+    }
+
+    private static void copyResourceToFile(String resource, File out) throws IOException {
+        InputStream in = TabPlugin.class.getClassLoader().getResourceAsStream(resource);
+        if (in == null) {
+            throw new IOException("Recurso nao encontrado: " + resource);
+        }
+        copy(in, out);
     }
 
     private static void copy(InputStream in, File out) throws IOException {
