@@ -8,7 +8,7 @@ description: Gerencia tab e resource pack de ranks
 commands:
   tab:
     description: Recarrega tab e resource pack
-    usage: /tab [reload|pack]
+    usage: /tab [reload|pack|update|test]
     permission: tab.admin
 permissions:
   tab.admin:

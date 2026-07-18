@@ -43,7 +43,17 @@ public class TabCommand implements CommandExecutor {
             return true;
         }
 
-        sender.sendMessage("§cUso: /tab [reload|pack|update]");
+        if (args[0].equalsIgnoreCase("test")) {
+            if (sender instanceof Player) {
+                plugin.sendTest((Player) sender);
+                sender.sendMessage("§aMensagem de teste enviada. Verifique o chat e o tab.");
+            } else {
+                sender.sendMessage("§cApenas jogadores podem usar /tab test");
+            }
+            return true;
+        }
+
+        sender.sendMessage("§cUso: /tab [reload|pack|update|test]");
         return true;
     }
 }

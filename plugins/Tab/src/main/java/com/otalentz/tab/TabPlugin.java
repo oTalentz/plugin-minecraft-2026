@@ -92,12 +92,12 @@ public class TabPlugin extends JavaPlugin implements Listener {
             File meta = new File(tempDir, "pack.mcmeta");
             Files.write(meta.toPath(), "{\"pack\":{\"pack_format\":46,\"supported_formats\":[46,64],\"description\":\"oTalentz Tab Rank Pack\"}}".getBytes());
 
-            File fontDir = new File(tempDir, "assets/minecraft/font");
+            File fontDir = new File(tempDir, "assets/otalentz/font");
             fontDir.mkdirs();
-            File texDir = new File(tempDir, "assets/minecraft/textures/font");
+            File texDir = new File(tempDir, "assets/otalentz/textures/font");
             texDir.mkdirs();
 
-            String fontJson = "{\"providers\":[{\"type\":\"bitmap\",\"file\":\"minecraft:font/dono\",\"height\":8,\"ascent\":7,\"chars\":[\"\\uE000\"]}]}";
+            String fontJson = "{\"providers\":[{\"type\":\"bitmap\",\"file\":\"otalentz:font/dono\",\"height\":8,\"ascent\":7,\"chars\":[\"\\uE000\"]}]}";
             Files.write(new File(fontDir, "donorank.json").toPath(), fontJson.getBytes("UTF-8"));
 
             InputStream in = getResource("dono.png");
@@ -182,7 +182,7 @@ public class TabPlugin extends JavaPlugin implements Listener {
             }
 
             if ("Dono".equals(displayName) && loaded) {
-                Component icon = Component.text("\uE000").font(Key.key("minecraft", "donorank"));
+                Component icon = Component.text("\uE000").font(Key.key("otalentz", "donorank"));
                 Component name = Component.text(" " + player.getName()).font(Key.key("minecraft", "default"));
                 display = Component.empty().append(icon).append(name);
             } else {
@@ -193,6 +193,13 @@ public class TabPlugin extends JavaPlugin implements Listener {
             display = Component.text(player.getName());
         }
         player.playerListName(display);
+    }
+
+    public void sendTest(Player player) {
+        Component icon = Component.text("\uE000").font(Key.key("otalentz", "donorank"));
+        Component msg = Component.text("[Tab Test] ").append(icon).append(Component.text(" " + player.getName()));
+        player.sendMessage(msg);
+        player.sendActionBar(Component.text("Se aparecer o icone acima, a fonte carregou."));
     }
 
     public void refreshAll() {
