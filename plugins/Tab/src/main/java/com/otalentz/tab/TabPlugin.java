@@ -117,6 +117,7 @@ public class TabPlugin extends JavaPlugin implements Listener {
             copyResourceToFile("default_font/include/unifont.json", new File(includeDir, "unifont.json"));
 
             copyResourceToFile("dono.png", new File(texDir, "dono.png"));
+            copyResourceToFile("recruta.png", new File(texDir, "recruta.png"));
 
             packFile = new File(getDataFolder(), "tab-resourcepack.zip");
             zipDir(tempDir, packFile);
