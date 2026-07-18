@@ -17,7 +17,7 @@
     },
     {
       "type": "bitmap",
-      "file": "minecraft:font/dono",
+      "file": "minecraft:font/dono.png",
       "height": 8,
       "ascent": 7,
       "chars": [
