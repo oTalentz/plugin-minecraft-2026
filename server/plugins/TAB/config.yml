@@ -133,9 +133,11 @@ placeholder-refresh-intervals:
   '%player_health_rounded%': 200
 assign-groups-by-permissions: false
 primary-group-finding-list:
-- Dono
-- Admin
-- Moderador
+- Heroi
+- Mestre
+- Capitao
+- Oficial
+- Cadete
 - Recruta
 - default
 permission-refresh-interval: 1000

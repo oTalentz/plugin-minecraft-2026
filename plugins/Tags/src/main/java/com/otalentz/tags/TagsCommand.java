@@ -76,7 +76,7 @@ public class TagsCommand implements CommandExecutor {
 
             Tag tag = Tag.fromString(args[1]);
             if (tag == null) {
-                sender.sendMessage(color("&cTag invalida. Use: Recruta, Moderador, Admin ou Dono."));
+                sender.sendMessage(color("&cTag invalida. Use: Recruta, Cadete, Oficial, Capitao, Mestre ou Heroi."));
                 return true;
             }
 
@@ -97,13 +97,13 @@ public class TagsCommand implements CommandExecutor {
             sender.sendMessage(color("&e/tags <jogador> &7- abre o menu de tags de outro jogador"));
             sender.sendMessage(color("&e/tag <jogador> <tag> &7- define a tag de outro jogador"));
         }
-        sender.sendMessage(color("&7Tags disponiveis: &fRecruta, Moderador, Admin, Dono"));
+        sender.sendMessage(color("&7Tags disponiveis: &fRecruta, Cadete, Oficial, Capitao, Mestre, Heroi"));
     }
 
     private void sendTagHelp(CommandSender sender) {
         sender.sendMessage(color("&6--- Ajuda Tag (admin) ---"));
         sender.sendMessage(color("&e/tag <jogador> <tag> &7- define a tag de um jogador"));
-        sender.sendMessage(color("&7Tags: Recruta, Moderador, Admin, Dono"));
+        sender.sendMessage(color("&7Tags: Recruta, Cadete, Oficial, Capitao, Mestre, Heroi"));
     }
 
     private String color(String msg) {

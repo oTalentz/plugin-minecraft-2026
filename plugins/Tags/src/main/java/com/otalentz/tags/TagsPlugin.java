@@ -65,7 +65,7 @@ public class TagsPlugin extends JavaPlugin implements Listener {
                 if (team == null) {
                     team = scoreboard.registerNewTeam(tag.getGroupName());
                 }
-                team.setPrefix(tag.getPrefix());
+                team.setPrefix(ChatColor.translateAlternateColorCodes('&', tag.getIcon()));
             }
         } else {
             getLogger().info("TAB detectado. Tags nao criara scoreboard teams.");
@@ -132,13 +132,13 @@ public class TagsPlugin extends JavaPlugin implements Listener {
         ItemMeta currentMeta = currentItem.getItemMeta();
         if (currentMeta != null) {
             currentMeta.setDisplayName(color("&aTag Atual"));
-            currentMeta.setLore(Collections.singletonList(color("&7" + target.getName() + " esta usando: " + current.getPrefix() + current.getDisplay())));
+            currentMeta.setLore(Collections.singletonList(color("&7" + target.getName() + " esta usando: " + current.getIcon() + current.getColor() + current.getDisplay())));
             currentItem.setItemMeta(currentMeta);
         }
         inv.setItem(13, currentItem);
 
         // Slots das tags
-        int[] tagSlots = {10, 12, 14, 16};
+        int[] tagSlots = {10, 11, 12, 14, 15, 16};
         for (int i = 0; i < Tag.values().length; i++) {
             Tag tag = Tag.values()[i];
             ItemStack item = new ItemStack(tag.getMaterial());
@@ -146,7 +146,7 @@ public class TagsPlugin extends JavaPlugin implements Listener {
             if (meta == null) continue;
 
             boolean isCurrent = current == tag;
-            String name = (isCurrent ? color("&a✔ ") : "") + tag.getColor() + "&l" + tag.getDisplay();
+            String name = (isCurrent ? "&a✔ " : "") + tag.getIcon() + tag.getColor() + "&l" + tag.getDisplay();
             meta.setDisplayName(color(name));
 
             List<String> lore = new ArrayList<>();
@@ -220,7 +220,7 @@ public class TagsPlugin extends JavaPlugin implements Listener {
         try {
             luckPerms.getGroupManager().modifyGroup(tag.getGroupName(), group -> {
                 group.data().clear(node -> node instanceof InheritanceNode);
-                group.data().add(PrefixNode.builder().prefix(tag.getPrefix().replace("§", "&")).priority(tag.getWeight()).build());
+                group.data().add(PrefixNode.builder().prefix(tag.getIcon()).priority(tag.getWeight()).build());
                 group.data().add(WeightNode.builder(tag.getWeight()).build());
                 for (String perm : tag.getPermissions()) {
                     group.data().add(PermissionNode.builder(perm).build());
@@ -243,9 +243,7 @@ public class TagsPlugin extends JavaPlugin implements Listener {
         if (luckPerms != null) {
             try {
                 luckPerms.getUserManager().modifyUser(uuid, user -> {
-                    for (Tag t : Tag.values()) {
-                        user.data().remove(InheritanceNode.builder(t.getGroupName()).build());
-                    }
+                    user.data().clear(node -> node instanceof InheritanceNode && !((InheritanceNode) node).getGroupName().equalsIgnoreCase("default"));
                     user.data().add(InheritanceNode.builder(tag.getGroupName()).build());
                     user.setPrimaryGroup(tag.getGroupName());
                 }).join();
