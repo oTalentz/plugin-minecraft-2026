@@ -11,7 +11,7 @@ import collections
 from functools import wraps
 from pathlib import Path
 
-from flask import Flask, render_template, request, Response, session, redirect, jsonify
+from flask import Flask, render_template, request, Response, session, redirect, jsonify, send_file
 
 APP_DIR = Path(__file__).resolve().parent
 REPO_DIR = APP_DIR.parent.parent
@@ -266,6 +266,14 @@ def stop_server():
         return jsonify({"output": output})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route("/tab-resourcepack.zip")
+def tab_resourcepack():
+    pack = SERVER_DIR / "data" / "plugins" / "Tab" / "tab-resourcepack.zip"
+    if not pack.exists():
+        return jsonify({"error": "resource pack not found"}), 404
+    return send_file(pack, mimetype="application/zip", as_attachment=True, download_name="tab-resourcepack.zip")
 
 
 if __name__ == "__main__":

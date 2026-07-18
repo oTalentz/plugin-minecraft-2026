@@ -24,8 +24,12 @@ echo "=== Compilando Coins ==="
 echo "=== Compilando Tags ==="
 "$MVN" -f "$SCRIPT_DIR/plugins/Tags/pom.xml" clean package -q
 
+echo "=== Compilando Tab ==="
+"$MVN" -f "$SCRIPT_DIR/plugins/Tab/pom.xml" clean package -q
+
 cp "$SCRIPT_DIR/plugins/Coins/target/Coins-"*.jar "$SCRIPT_DIR/server/plugins/"
 cp "$SCRIPT_DIR/plugins/Tags/target/Tags-"*.jar "$SCRIPT_DIR/server/plugins/"
+cp "$SCRIPT_DIR/plugins/Tab/target/Tab-"*.jar "$SCRIPT_DIR/server/plugins/"
 
 echo "=== Plugins gerados em server/plugins/ ==="
 ls -la "$SCRIPT_DIR/server/plugins/"

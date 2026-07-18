@@ -3,7 +3,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-if [[ ! -f "$SCRIPT_DIR/server/plugins/Coins-"*.jar || ! -f "$SCRIPT_DIR/server/plugins/Tags-"*.jar ]]; then
+if [[ ! -f "$SCRIPT_DIR/server/plugins/Coins-"*.jar || ! -f "$SCRIPT_DIR/server/plugins/Tags-"*.jar || ! -f "$SCRIPT_DIR/server/plugins/Tab-"*.jar ]]; then
     echo "Plugins nao encontrados. Executando build..."
     "$SCRIPT_DIR/build.sh"
 fi
@@ -19,3 +19,6 @@ docker compose up -d
 
 # Inicia console web local para gerenciar o servidor
 "$SCRIPT_DIR/server/web-console/start.sh"
+
+# Inicia tunel publico HTTP para o console/resource pack
+"$SCRIPT_DIR/server/expose-bore-console.sh"
