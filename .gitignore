@@ -1,5 +1,7 @@
 target/
 *.jar
+__pycache__/
+*.pyc
 .idea/
 *.iml
 .vscode/

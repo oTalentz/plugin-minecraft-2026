@@ -22,11 +22,33 @@ public class TagsCommand implements CommandExecutor {
                 sender.sendMessage(color("&cSem permissao."));
                 return true;
             }
-            StringBuilder sb = new StringBuilder(color("&aTags disponiveis: "));
-            for (Tag tag : Tag.values()) {
-                sb.append(tag.getPrefix()).append(tag.getDisplay()).append(ChatColor.RESET).append(", ");
+
+            if (args.length == 1 && args[0].equalsIgnoreCase("help")) {
+                sendHelp(sender);
+                return true;
             }
-            sender.sendMessage(sb.substring(0, sb.length() - 2));
+
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(color("&cApenas jogadores podem usar o menu de tags."));
+                return true;
+            }
+
+            Player viewer = (Player) sender;
+            Player target = viewer;
+
+            if (args.length == 1) {
+                if (!viewer.hasPermission("tags.admin.set")) {
+                    viewer.sendMessage(color("&cSem permissao para abrir o menu de outro jogador."));
+                    return true;
+                }
+                target = Bukkit.getPlayer(args[0]);
+                if (target == null) {
+                    viewer.sendMessage(color("&cJogador nao encontrado."));
+                    return true;
+                }
+            }
+
+            plugin.openTagsMenu(viewer, target);
             return true;
         }
 
@@ -36,8 +58,13 @@ public class TagsCommand implements CommandExecutor {
                 return true;
             }
 
+            if (args.length == 1 && args[0].equalsIgnoreCase("help")) {
+                sendTagHelp(sender);
+                return true;
+            }
+
             if (args.length != 2) {
-                sender.sendMessage(color("&cUso: /tag <jogador> <tag>"));
+                sender.sendMessage(color("&cUso: /tag <jogador> <tag> | /tag help"));
                 return true;
             }
 
@@ -49,7 +76,7 @@ public class TagsCommand implements CommandExecutor {
 
             Tag tag = Tag.fromString(args[1]);
             if (tag == null) {
-                sender.sendMessage(color("&cTag invalida. Use: Recruta, Moderador, Admin ou Dono."));
+                sender.sendMessage(color("&cTag invalida. Use: Recruta, Cadete, Oficial, Capitao, Mestre ou Heroi."));
                 return true;
             }
 
@@ -60,6 +87,23 @@ public class TagsCommand implements CommandExecutor {
         }
 
         return false;
+    }
+
+    private void sendHelp(CommandSender sender) {
+        sender.sendMessage(color("&6--- Ajuda Tags ---"));
+        sender.sendMessage(color("&e/tags &7- abre o menu de tags"));
+        sender.sendMessage(color("&e/tags help &7- mostra esta ajuda"));
+        if (sender.hasPermission("tags.admin.set")) {
+            sender.sendMessage(color("&e/tags <jogador> &7- abre o menu de tags de outro jogador"));
+            sender.sendMessage(color("&e/tag <jogador> <tag> &7- define a tag de outro jogador"));
+        }
+        sender.sendMessage(color("&7Tags disponiveis: &fRecruta, Cadete, Oficial, Capitao, Mestre, Heroi"));
+    }
+
+    private void sendTagHelp(CommandSender sender) {
+        sender.sendMessage(color("&6--- Ajuda Tag (admin) ---"));
+        sender.sendMessage(color("&e/tag <jogador> <tag> &7- define a tag de um jogador"));
+        sender.sendMessage(color("&7Tags: Recruta, Cadete, Oficial, Capitao, Mestre, Heroi"));
     }
 
     private String color(String msg) {

@@ -16,7 +16,7 @@ if [[ ! -x "$MVN" ]]; then
     fi
 fi
 
-mkdir -p "$SCRIPT_DIR/server/plugins"
+mkdir -p "$SCRIPT_DIR/server/data/plugins"
 
 echo "=== Compilando Coins ==="
 "$MVN" -f "$SCRIPT_DIR/plugins/Coins/pom.xml" clean package -q
@@ -24,8 +24,12 @@ echo "=== Compilando Coins ==="
 echo "=== Compilando Tags ==="
 "$MVN" -f "$SCRIPT_DIR/plugins/Tags/pom.xml" clean package -q
 
-cp "$SCRIPT_DIR/plugins/Coins/target/Coins-"*.jar "$SCRIPT_DIR/server/plugins/"
-cp "$SCRIPT_DIR/plugins/Tags/target/Tags-"*.jar "$SCRIPT_DIR/server/plugins/"
+echo "=== Compilando Tab ==="
+"$MVN" -f "$SCRIPT_DIR/plugins/Tab/pom.xml" clean package -q
 
-echo "=== Plugins gerados em server/plugins/ ==="
-ls -la "$SCRIPT_DIR/server/plugins/"
+cp "$SCRIPT_DIR/plugins/Coins/target/Coins-"*.jar "$SCRIPT_DIR/server/data/plugins/"
+cp "$SCRIPT_DIR/plugins/Tags/target/Tags-"*.jar "$SCRIPT_DIR/server/data/plugins/"
+cp "$SCRIPT_DIR/plugins/Tab/target/Tab-"*.jar "$SCRIPT_DIR/server/data/plugins/"
+
+echo "=== Plugins gerados em server/data/plugins/ ==="
+ls -la "$SCRIPT_DIR/server/data/plugins/"

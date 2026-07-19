@@ -1,0 +1,18 @@
+recruta:
+  tabprefix: "%luckperms-prefix%"
+  tagprefix: "%luckperms-prefix%"
+cadete:
+  tabprefix: "%luckperms-prefix%"
+  tagprefix: "%luckperms-prefix%"
+oficial:
+  tabprefix: "%luckperms-prefix%"
+  tagprefix: "%luckperms-prefix%"
+capitao:
+  tabprefix: "%luckperms-prefix%"
+  tagprefix: "%luckperms-prefix%"
+mestre:
+  tabprefix: "%luckperms-prefix%"
+  tagprefix: "%luckperms-prefix%"
+heroi:
+  tabprefix: "%luckperms-prefix%"
+  tagprefix: "%luckperms-prefix%"

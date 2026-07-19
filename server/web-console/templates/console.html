@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Console - Minecraft Server</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; height: 100vh; background: #0d1117; color: #c9d1d9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            display: flex; flex-direction: column;
+        }
+        header {
+            padding: .75rem 1rem; background: #161b22; border-bottom: 1px solid #30363d;
+            display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
+        }
+        header h1 { margin: 0; font-size: 1rem; }
+        .status { font-size: .875rem; }
+        .status.online { color: #3fb950; }
+        .status.offline { color: #f85149; }
+        .spacer { flex: 1; }
+        button, input, select {
+            padding: .4rem .75rem; border-radius: 6px; border: 1px solid #30363d; background: #21262d; color: #c9d1d9;
+            font-size: .875rem;
+        }
+        button { cursor: pointer; background: #238636; border-color: #238636; color: white; }
+        button:hover { background: #2ea043; }
+        button.warn { background: #9e6a03; border-color: #9e6a03; }
+        button.warn:hover { background: #b5850d; }
+        button.danger { background: #f85149; border-color: #f85149; }
+        button.danger:hover { background: #ff7b72; }
+        .player-input { width: 120px; }
+        main { flex: 1; padding: 1rem; min-height: 0; display: flex; gap: 1rem; }
+        .logs {
+            flex: 1; background: #010409; border: 1px solid #30363d; border-radius: 8px;
+            overflow-y: auto; padding: .75rem; font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+            font-size: .8rem; white-space: pre-wrap;
+        }
+        .logs .line { margin-bottom: 2px; }
+        .command-bar {
+            display: flex; gap: .5rem; padding: .75rem 1rem; background: #161b22; border-top: 1px solid #30363d;
+        }
+        .command-bar input { flex: 1; }
+        .command-bar button { white-space: nowrap; }
+        #toast {
+            position: fixed; bottom: 1rem; right: 1rem; background: #161b22; border: 1px solid #30363d;
+            padding: .75rem 1rem; border-radius: 8px; display: none; max-width: 320px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Minecraft Console</h1>
+        <div class="status" id="status">carregando...</div>
+        <div class="spacer"></div>
+        <input type="text" id="player" class="player-input" placeholder="jogador">
+        <button onclick="op()">Dar OP</button>
+        <button onclick="deop()">Remover OP</button>
+        <button class="warn" onclick="kick()">Kick</button>
+        <button class="warn" onclick="restart()">Reiniciar</button>
+        <button class="danger" onclick="stop()">Parar</button>
+        <button onclick="location.href='/logout'">Sair</button>
+    </header>
+    <main>
+        <div class="logs" id="logs"></div>
+    </main>
+    <form class="command-bar" onsubmit="send(event)">
+        <input id="cmd" type="text" placeholder="Digite um comando (ex: say oi)" autocomplete="off">
+        <button type="submit">Enviar</button>
+    </form>
+    <div id="toast"></div>
+
+    <script>
+        const logsEl = document.getElementById('logs');
+        const statusEl = document.getElementById('status');
+        const playerEl = document.getElementById('player');
+        const toastEl = document.getElementById('toast');
+
+        const source = new EventSource(location.origin + '/api/logs');
+        source.onmessage = e => {
+            const data = JSON.parse(e.data);
+            appendLine(data.line);
+        };
+        source.onerror = () => appendLine('[console] conexao de logs perdida');
+
+        function appendLine(line) {
+            const div = document.createElement('div');
+            div.className = 'line';
+            div.textContent = line;
+            logsEl.appendChild(div);
+            logsEl.scrollTop = logsEl.scrollHeight;
+        }
+
+        async function refreshStatus() {
+            try {
+                const r = await fetch(location.origin + '/api/status');
+                if (!r.ok) throw new Error('nao autenticado');
+                const s = await r.json();
+                statusEl.className = 'status ' + (s.online ? 'online' : 'offline');
+                statusEl.textContent = (s.online ? 'online' : 'offline') + ' | ' + (s.players || '') + ' | ' + s.address;
+            } catch (e) {
+                statusEl.className = 'status offline';
+                statusEl.textContent = 'erro: ' + e.message;
+            }
+        }
+        setInterval(refreshStatus, 5000);
+        refreshStatus();
+
+        function show(msg, isError) {
+            toastEl.style.display = 'block';
+            toastEl.textContent = msg;
+            toastEl.style.color = isError ? '#f85149' : '#c9d1d9';
+            setTimeout(() => toastEl.style.display = 'none', 4000);
+        }
+
+        async function send(e) {
+            if (e) e.preventDefault();
+            const input = document.getElementById('cmd');
+            const cmd = input.value.trim();
+            if (!cmd) return;
+            input.value = '';
+            try {
+                const r = await fetch(location.origin + '/api/command', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({cmd})
+                });
+                const data = await r.json();
+                if (data.error) show('Erro: ' + data.error, true);
+                else show(data.output || 'comando enviado');
+            } catch (e) { show('Erro: ' + e.message, true); }
+        }
+
+        async function api(url, body) {
+            try {
+                const r = await fetch(url, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: body ? JSON.stringify(body) : null
+                });
+                const data = await r.json();
+                if (data.error) show('Erro: ' + data.error, true);
+                else show(data.output || 'ok');
+            } catch (e) { show('Erro: ' + e.message, true); }
+        }
+
+        function op() { const p = playerEl.value.trim(); if (!p) return; api(location.origin + '/api/op/' + encodeURIComponent(p)); }
+        function deop() { const p = playerEl.value.trim(); if (!p) return; api(location.origin + '/api/deop/' + encodeURIComponent(p)); }
+        function kick() {
+            const p = playerEl.value.trim();
+            if (!p) return;
+            const reason = prompt('Motivo do kick?') || '';
+            api(location.origin + '/api/kick/' + encodeURIComponent(p), {reason});
+        }
+        function restart() { if (confirm('Reiniciar o servidor?')) api(location.origin + '/api/restart'); }
+        function stop() { if (confirm('Parar o servidor?')) api(location.origin + '/api/stop'); }
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+{
+  "providers": [
+    {
+      "type": "reference",
+      "id": "minecraft:include/space"
+    },
+    {
+      "type": "reference",
+      "id": "minecraft:include/default",
+      "filter": {
+        "uniform": false
+      }
+    },
+    {
+      "type": "reference",
+      "id": "minecraft:include/unifont"
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/recruta.png",
+      "height": 9,
+      "ascent": 8,
+      "chars": [
+        "\uE000"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/cadete.png",
+      "height": 9,
+      "ascent": 8,
+      "chars": [
+        "\uE001"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/oficial.png",
+      "height": 9,
+      "ascent": 8,
+      "chars": [
+        "\uE002"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/capitao.png",
+      "height": 9,
+      "ascent": 8,
+      "chars": [
+        "\uE003"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/mestre.png",
+      "height": 9,
+      "ascent": 8,
+      "chars": [
+        "\uE004"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:font/heroi.png",
+      "height": 9,
+      "ascent": 8,
+      "chars": [
+        "\uE005"
+      ]
+    }
+  ]
+}
