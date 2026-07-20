@@ -1,0 +1,53 @@
+# === Server Runtime ===
+paper-*.jar
+spigot-*.jar
+*.jar
+!plugins/*.jar
+
+# === Worlds ===
+world/
+world_nether/
+world_the_end/
+world_*/
+
+# === Logs ===
+logs/
+*.log
+latest.log
+
+# === Cache & Temp ===
+cache/
+libraries/
+versions/
+*.tmp
+*.bak
+
+# === Server Data (sensitive) ===
+usercache.json
+ops.json
+whitelist.json
+banned-players.json
+banned-ips.json
+commands.yml
+permissions.yml
+help.yml
+
+# === Plugin Runtime Data ===
+plugins/*/data/
+plugins/*/cache/
+plugins/Essentials/
+plugins/WorldEdit/
+plugins/WorldGuard/
+
+# === OS Files ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === IDE ===
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*~

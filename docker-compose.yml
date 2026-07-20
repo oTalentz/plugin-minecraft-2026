@@ -1,0 +1,35 @@
+# ─── Docker Compose: Servidor Minecraft 1.21.8 Multi-Versão ───
+services:
+  minecraft:
+    build: .
+    container_name: mc-server-1218
+    restart: unless-stopped
+    ports:
+      - "25565:25565/tcp"
+      - "25565:25565/udp"
+    environment:
+      - MIN_RAM=2G
+      - MAX_RAM=4G
+      - TZ=America/Sao_Paulo
+    volumes:
+      - mc-world:/server/world
+      - mc-world-nether:/server/world_nether
+      - mc-world-end:/server/world_the_end
+      - mc-logs:/server/logs
+      - mc-plugins:/server/plugins
+    stdin_open: true
+    tty: true
+    # Resource limits (optional)
+    deploy:
+      resources:
+        limits:
+          memory: 5G
+        reservations:
+          memory: 2G
+
+volumes:
+  mc-world:
+  mc-world-nether:
+  mc-world-end:
+  mc-logs:
+  mc-plugins:

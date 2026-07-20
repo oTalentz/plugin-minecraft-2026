@@ -1,0 +1,150 @@
+# ViaVersion Configuration
+# Docs: https://docs.viaversion.com/display/VIAVERSION/Configuration
+
+# Verificar atualizações automaticamente
+checkforupdates: true
+
+# Enviar mensagem ao jogador quando uma nova versão do ViaVersion estiver disponível
+notify: true
+
+# Bloquear protocolos específicos (lista de IDs de protocolo)
+# Exemplo: block-protocols: [754] bloqueia 1.16.5
+block-protocols: []
+
+# Bloquear versões específicas por nome
+# block-versions: []
+
+# Máximo de pacotes por segundo (anti-crash)
+max-pps: 800
+max-pps-kick-msg: "Você está enviando pacotes muito rápido!"
+
+# Tracking de pacotes
+tracking-period: 6
+tracking-warning-pps: 120
+tracking-max-warnings: 4
+tracking-max-kick-msg: "Você está enviando pacotes muito rápido, calma!"
+
+# Anti-cheat de movimento
+prevent-shield-blocking: false
+
+# Mapeamento de itens
+item-cache: true
+
+# 1.13+ tab completion
+1_13-tab-complete-delay: 0
+
+# 1.13+ autocomplete
+1_13-complete-in-tab: false
+
+# Quick-move action fix
+quick-move-action-fix: false
+
+# Hologram fix
+hologram-patch: false
+hologram-y: -0.96
+
+# Piston animation fix
+piston-animation-patch: false
+
+# Bossbar fix
+bossbar-patch: true
+bossbar-anti-flicker: false
+
+# Team colour fix
+team-colour-fix: true
+
+# Left-handed fix
+left-handed-handling: true
+
+# Fullbright fix
+fullbright-fix: true
+
+# Anti-Xray (experimental)
+anti-xray: false
+
+# No-delay tab complete
+no-delay-tab-complete: false
+
+# Show new death messages
+show-new-death-messages: false
+
+# Use new death messages
+use-new-death-messages: true
+
+# Suppress metadata errors
+suppress-metadata-errors: false
+
+# Shield blocking
+shield-blocking: true
+
+# No-punch fire
+no-punch-fire: false
+
+# R1.13 chat
+1_13-chat: true
+
+# R1.13 tab
+1_13-tab: true
+
+# R1.13 autocomplete
+1_13-autocomplete: true
+
+# R1.13 particles
+1_13-particles: true
+
+# R1.13 sounds
+1_13-sounds: true
+
+# R1.13 statistics
+1_13-statistics: true
+
+# R1.13 recipes
+1_13-recipes: true
+
+# R1.13 advancements
+1_13-advancements: true
+
+# R1.13 tags
+1_13-tags: true
+
+# R1.13 commands
+1_13-commands: true
+
+# R1.13 item names
+1_13-item-names: true
+
+# R1.13 block names
+1_13-block-names: true
+
+# R1.13 entity names
+1_13-entity-names: true
+
+# R1.13 enchantment names
+1_13-enchantment-names: true
+
+# R1.13 potion names
+1_13-potion-names: true
+
+# R1.13 effect names
+1_13-effect-names: true
+
+# R1.13 particle names
+1_13-particle-names: true
+
+# R1.13 sound names
+1_13-sound-names: true
+
+# R1.13 statistic names
+1_13-statistic-names: true
+
+# R1.13 recipe names
+1_13-recipe-names: true
+
+# R1.13 advancement names
+1_13-advancement-names: true
+
+# R1.13 tag names
+1_13-tag-names: true
+
+# R1.13 command names
+1_13-command-names: true

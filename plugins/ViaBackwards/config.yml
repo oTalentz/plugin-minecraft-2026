@@ -1,0 +1,167 @@
+# ViaBackwards Configuration
+# Docs: https://docs.viaversion.com/display/VIABACKWARDS/Configuration
+
+# Sempre mostrar o nome original do mob (para versões antigas)
+always-show-original-mob-name: true
+
+# Mapear nomes de encantamentos para versões antigas
+add-custom-enchants: true
+
+# Mapear nomes de poções para versões antigas
+add-custom-potion-effects: true
+
+# Mapear nomes de partículas para versões antigas
+add-custom-particles: true
+
+# Mapear nomes de sons para versões antigas
+add-custom-sounds: true
+
+# Mapear nomes de blocos para versões antigas
+add-custom-blocks: true
+
+# Mapear nomes de itens para versões antigas
+add-custom-items: true
+
+# Mapear nomes de entidades para versões antigas
+add-custom-entities: true
+
+# Mapear nomes de encantamentos para versões antigas
+add-custom-enchantments: true
+
+# Mapear nomes de efeitos para versões antigas
+add-custom-effects: true
+
+# Mapear nomes de estatísticas para versões antigas
+add-custom-statistics: true
+
+# Mapear nomes de receitas para versões antigas
+add-custom-recipes: true
+
+# Mapear nomes de avanços para versões antigas
+add-custom-advancements: true
+
+# Mapear nomes de tags para versões antigas
+add-custom-tags: true
+
+# Mapear nomes de comandos para versões antigas
+add-custom-commands: true
+
+# Mapear nomes de nomes de itens para versões antigas
+add-custom-item-names: true
+
+# Mapear nomes de nomes de blocos para versões antigas
+add-custom-block-names: true
+
+# Mapear nomes de nomes de entidades para versões antigas
+add-custom-entity-names: true
+
+# Mapear nomes de nomes de encantamentos para versões antigas
+add-custom-enchantment-names: true
+
+# Mapear nomes de nomes de poções para versões antigas
+add-custom-potion-names: true
+
+# Mapear nomes de nomes de efeitos para versões antigas
+add-custom-effect-names: true
+
+# Mapear nomes de nomes de partículas para versões antigas
+add-custom-particle-names: true
+
+# Mapear nomes de nomes de sons para versões antigas
+add-custom-sound-names: true
+
+# Mapear nomes de nomes de estatísticas para versões antigas
+add-custom-statistic-names: true
+
+# Mapear nomes de nomes de receitas para versões antigas
+add-custom-recipe-names: true
+
+# Mapear nomes de nomes de avanços para versões antigas
+add-custom-advancement-names: true
+
+# Mapear nomes de nomes de tags para versões antigas
+add-custom-tag-names: true
+
+# Mapear nomes de nomes de comandos para versões antigas
+add-custom-command-names: true
+
+# Fix de chests para 1.12
+fix-1_12-chest: true
+
+# Fix de camas para 1.12
+fix-1_12-bed: true
+
+# Fix de barcos para 1.12
+fix-1_12-boat: true
+
+# Fix de armaduras para 1.12
+fix-1_12-armor: true
+
+# Fix de itens para 1.12
+fix-1_12-item: true
+
+# Fix de entidades para 1.12
+fix-1_12-entity: true
+
+# Fix de blocos para 1.12
+fix-1_12-block: true
+
+# Fix de partículas para 1.12
+fix-1_12-particle: true
+
+# Fix de sons para 1.12
+fix-1_12-sound: true
+
+# Fix de estatísticas para 1.12
+fix-1_12-statistic: true
+
+# Fix de receitas para 1.12
+fix-1_12-recipe: true
+
+# Fix de avanços para 1.12
+fix-1_12-advancement: true
+
+# Fix de tags para 1.12
+fix-1_12-tag: true
+
+# Fix de comandos para 1.12
+fix-1_12-command: true
+
+# Fix de nomes de itens para 1.12
+fix-1_12-item-name: true
+
+# Fix de nomes de blocos para 1.12
+fix-1_12-block-name: true
+
+# Fix de nomes de entidades para 1.12
+fix-1_12-entity-name: true
+
+# Fix de nomes de encantamentos para 1.12
+fix-1_12-enchantment-name: true
+
+# Fix de nomes de poções para 1.12
+fix-1_12-potion-name: true
+
+# Fix de nomes de efeitos para 1.12
+fix-1_12-effect-name: true
+
+# Fix de nomes de partículas para 1.12
+fix-1_12-particle-name: true
+
+# Fix de nomes de sons para 1.12
+fix-1_12-sound-name: true
+
+# Fix de nomes de estatísticas para 1.12
+fix-1_12-statistic-name: true
+
+# Fix de nomes de receitas para 1.12
+fix-1_12-recipe-name: true
+
+# Fix de nomes de avanços para 1.12
+fix-1_12-advancement-name: true
+
+# Fix de nomes de tags para 1.12
+fix-1_12-tag-name: true
+
+# Fix de nomes de comandos para 1.12
+fix-1_12-command-name: true
