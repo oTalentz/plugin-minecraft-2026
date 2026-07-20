@@ -18,9 +18,9 @@ error() { echo -e "${RED}[ERROR]${NC} $*"; exit 1; }
 
 # ─── Versões ───
 PAPER_VERSION="1.21.8"
-VIAVERSION_VER="5.3.0"
-VIABACKWARDS_VER="5.3.0"
-VIAREWIND_VER="4.0.4"
+VIAVERSION_VER="5.11.0"
+VIABACKWARDS_VER="5.11.0"
+VIAREWIND_VER="4.1.3"
 
 # ─── Diretórios ───
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -54,14 +54,28 @@ PAPER_JAR="paper-${PAPER_VERSION}.jar"
 if [ -f "$PAPER_JAR" ]; then
     warn "$PAPER_JAR já existe. Pulando download."
 else
-    info "Baixando Paper $PAPER_VERSION..."
-    PAPER_URL="https://api.papermc.io/v2/projects/paper/versions/${PAPER_VERSION}/builds/latest/downloads/paper-${PAPER_VERSION}.jar"
+    # A API v2 (api.papermc.io/v2) foi DESCONTINUADA (sunset).
+    # Usamos a nova API fill v3 para obter os metadados do build mais recente
+    # e extrair a URL real de download (hospedada em fill-data.papermc.io).
+    info "Obtendo metadados do build mais recente do Paper $PAPER_VERSION..."
+    PAPER_META_URL="https://fill.papermc.io/v3/projects/paper/versions/${PAPER_VERSION}/builds/latest"
     if command -v curl &> /dev/null; then
-        curl -L -o "$PAPER_JAR" "$PAPER_URL"
+        PAPER_META=$(curl -sL "$PAPER_META_URL")
     elif command -v wget &> /dev/null; then
-        wget -O "$PAPER_JAR" "$PAPER_URL"
+        PAPER_META=$(wget -qO- "$PAPER_META_URL")
     else
         error "curl ou wget é necessário para download."
+    fi
+    PAPER_URL=$(echo "$PAPER_META" | grep -oE 'https://fill-data[^"]+\.jar' | head -1)
+    if [ -z "$PAPER_URL" ]; then
+        error "Não foi possível obter a URL de download do Paper. Verifique a conexão ou se a versão ${PAPER_VERSION} existe."
+    fi
+    info "Baixando Paper $PAPER_VERSION..."
+    info "URL: $PAPER_URL"
+    if command -v curl &> /dev/null; then
+        curl -L -o "$PAPER_JAR" "$PAPER_URL"
+    else
+        wget -O "$PAPER_JAR" "$PAPER_URL"
     fi
     ok "Paper $PAPER_VERSION baixado."
 fi
@@ -124,7 +138,7 @@ echo ""
 ok "========================================="
 ok "  Setup concluído com sucesso!"
 ok "  Servidor: Paper $PAPER_VERSION"
-ok "  Plugins:  ViaVersion, ViaBackwards, ViaRewind"
+ok "  Plugins:  ViaVersion $VIAVERSION_VER, ViaBackwards $VIABACKWARDS_VER, ViaRewind $VIAREWIND_VER"
 ok "========================================="
 echo ""
 info "Para iniciar o servidor, execute:"
