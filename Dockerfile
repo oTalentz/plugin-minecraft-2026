@@ -19,10 +19,17 @@ RUN mkdir -p ${SERVER_DIR}/plugins/ViaVersion \
 WORKDIR ${SERVER_DIR}
 
 # ─── Baixar Paper ───
-RUN apt-get update && apt-get install -y --no-install-recommends curl && \
-    curl -L -o paper-${PAPER_VERSION}.jar \
-    "https://api.papermc.io/v2/projects/paper/versions/${PAPER_VERSION}/builds/latest/downloads/paper-${PAPER_VERSION}.jar" && \
-    apt-get purge -y curl && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
+# A API v2 (api.papermc.io/v2) foi DESCONTINUADA (sunset) e retorna 404.
+# Usamos a API fill v3 para obter os metadados do build mais recente e
+# extrair a URL real de download (hospedada em fill-data.papermc.io).
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates unzip && \
+    PAPER_META=$(curl -sL "https://fill.papermc.io/v3/projects/paper/versions/${PAPER_VERSION}/builds/latest") && \
+    PAPER_URL=$(echo "$PAPER_META" | grep -oE 'https://fill-data[^"]+\.jar' | head -1) && \
+    if [ -z "$PAPER_URL" ]; then echo "ERRO: nao foi possivel obter a URL do Paper ${PAPER_VERSION}" >&2; exit 1; fi && \
+    echo "Baixando Paper de: $PAPER_URL" && \
+    curl -L -o paper-${PAPER_VERSION}.jar "$PAPER_URL" && \
+    unzip -tqq paper-${PAPER_VERSION}.jar > /dev/null && \
+    apt-get purge -y curl unzip && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
 # ─── Baixar Plugins ───
 RUN apt-get update && apt-get install -y --no-install-recommends curl && \
