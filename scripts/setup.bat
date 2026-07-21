@@ -32,7 +32,8 @@ if exist "%PAPER_JAR%" (
     echo [WARN] %PAPER_JAR% ja existe. Pulando download.
 ) else (
     echo [INFO] Baixando Paper %PAPER_VERSION%...
-    powershell -Command "Invoke-WebRequest -Uri 'https://api.papermc.io/v2/projects/paper/versions/%PAPER_VERSION%/builds/latest/downloads/paper-%PAPER_VERSION%.jar' -OutFile '%PAPER_JAR%'"
+    REM A API v2 foi DESCONTINUADA (sunset). Usamos a API fill v3 para obter a URL real.
+    powershell -Command "$meta = Invoke-RestMethod -Uri 'https://fill.papermc.io/v3/projects/paper/versions/%PAPER_VERSION%/builds/latest'; Invoke-WebRequest -Uri $meta.downloads.'server:default'.url -OutFile '%PAPER_JAR%'"
     echo [OK] Paper baixado.
 )
 
