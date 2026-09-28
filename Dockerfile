@@ -6,6 +6,9 @@ LABEL description="Servidor Minecraft Paper 1.21.8 com suporte multi-versão"
 
 # ─── Variáveis ───
 ENV PAPER_VERSION=1.21.8
+ENV VIAVERSION_VER=5.12.0
+ENV VIABACKWARDS_VER=5.12.0
+ENV VIAREWIND_VER=4.2.0
 ENV MIN_RAM=2G
 ENV MAX_RAM=4G
 ENV SERVER_DIR=/server
@@ -27,11 +30,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl && \
 # ─── Baixar Plugins ───
 RUN apt-get update && apt-get install -y --no-install-recommends curl && \
     curl -L -o plugins/ViaVersion.jar \
-    "https://github.com/ViaVersion/ViaVersion/releases/download/5.3.0/ViaVersion-5.3.0.jar" && \
+    "https://github.com/ViaVersion/ViaVersion/releases/download/${VIAVERSION_VER}/ViaVersion-${VIAVERSION_VER}.jar" && \
     curl -L -o plugins/ViaBackwards.jar \
-    "https://github.com/ViaVersion/ViaBackwards/releases/download/5.3.0/ViaBackwards-5.3.0.jar" && \
+    "https://github.com/ViaVersion/ViaBackwards/releases/download/${VIABACKWARDS_VER}/ViaBackwards-${VIABACKWARDS_VER}.jar" && \
     curl -L -o plugins/ViaRewind.jar \
-    "https://github.com/ViaVersion/ViaRewind/releases/download/4.0.4/ViaRewind-4.0.4.jar" && \
+    "https://github.com/ViaVersion/ViaRewind/releases/download/${VIAREWIND_VER}/ViaRewind-${VIAREWIND_VER}.jar" && \
     apt-get purge -y curl && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
 # ─── Copiar configs ───

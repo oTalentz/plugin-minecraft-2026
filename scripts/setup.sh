@@ -18,9 +18,9 @@ error() { echo -e "${RED}[ERROR]${NC} $*"; exit 1; }
 
 # ─── Versões ───
 PAPER_VERSION="1.21.8"
-VIAVERSION_VER="5.11.0"
-VIABACKWARDS_VER="5.11.0"
-VIAREWIND_VER="4.1.3"
+VIAVERSION_VER="5.12.0"
+VIABACKWARDS_VER="5.12.0"
+VIAREWIND_VER="4.2.0"
 
 # ─── Diretórios ───
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

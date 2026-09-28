@@ -3,9 +3,9 @@ REM setup.bat — Baixa e configura o servidor Minecraft 1.21.8 (Paper) com mult
 setlocal enabledelayedexpansion
 
 set "PAPER_VERSION=1.21.8"
-set "VIAVERSION_VER=5.3.0"
-set "VIABACKWARDS_VER=5.3.0"
-set "VIAREWIND_VER=4.0.4"
+set "VIAVERSION_VER=5.12.0"
+set "VIABACKWARDS_VER=5.12.0"
+set "VIAREWIND_VER=4.2.0"
 
 set "ROOT_DIR=%~dp0.."
 cd /d "%ROOT_DIR%"
