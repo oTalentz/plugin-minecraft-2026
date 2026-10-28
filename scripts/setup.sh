@@ -18,8 +18,8 @@ error() { echo -e "${RED}[ERROR]${NC} $*"; exit 1; }
 
 # ─── Versões ───
 PAPER_VERSION="1.21.8"
-VIAVERSION_VER="5.12.1"
-VIABACKWARDS_VER="5.12.1"
+VIAVERSION_VER="5.12.2"
+VIABACKWARDS_VER="5.12.2"
 VIAREWIND_VER="4.2.0"
 
 # ─── Diretórios ───
