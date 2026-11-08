@@ -29,11 +29,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl && \
 
 # ─── Baixar Plugins ───
 RUN apt-get update && apt-get install -y --no-install-recommends curl && \
-    curl -L -o plugins/ViaVersion.jar \
+    curl -fL --retry 5 --retry-all-errors --retry-delay 5 -o plugins/ViaVersion.jar \
     "https://github.com/ViaVersion/ViaVersion/releases/download/${VIAVERSION_VER}/ViaVersion-${VIAVERSION_VER}.jar" && \
-    curl -L -o plugins/ViaBackwards.jar \
+    curl -fL --retry 5 --retry-all-errors --retry-delay 5 -o plugins/ViaBackwards.jar \
     "https://github.com/ViaVersion/ViaBackwards/releases/download/${VIABACKWARDS_VER}/ViaBackwards-${VIABACKWARDS_VER}.jar" && \
-    curl -L -o plugins/ViaRewind.jar \
+    curl -fL --retry 5 --retry-all-errors --retry-delay 5 -o plugins/ViaRewind.jar \
     "https://github.com/ViaVersion/ViaRewind/releases/download/${VIAREWIND_VER}/ViaRewind-${VIAREWIND_VER}.jar" && \
     apt-get purge -y curl && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
